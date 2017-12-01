@@ -1,46 +1,47 @@
-CREATE TABLE User (
+CREATE TABLE Users (
     userid int NOT NULL AUTO_INCREMENT,
-    username varchar(30) NOT NULL,
-    useremail varchar(30) NOT NULL,
-    usercity varchar(30),
+    username varchar(50) NOT NULL,
+    userkey varchar(50) NOT NULL,
+    useremail varchar(50) NOT NULL,
+    usercity varchar(50),
     PRIMARY KEY (userid)
 );
 
 CREATE TABLE Album (
     albumid int NOT NULL AUTO_INCREMENT,
-    albumtitle varchar(30) NOT NULL,
-    albumreleasedate TIMESTAMP,
+    albumtitle varchar(50) NOT NULL,
+    releasedate DATE,
     PRIMARY KEY (albumid)
 );
 
 CREATE TABLE Artist(
     artistid int NOT NULL AUTO_INCREMENT,
-    artisttitle varchar(30) NOT NULL,
+    artisttitle varchar(50) NOT NULL,
     artistdesc varchar(140),
     PRIMARY KEY (artistid)
 );
 
 CREATE TABLE Member(
     memberid int NOT NULL AUTO_INCREMENT,
-    membername varchar(30) NOT NULL,
+    membername varchar(50) NOT NULL,
     memberDOB DATE,
     PRIMARY KEY (memberid)
 );
 
 CREATE TABLE Playlist (
     plistid int NOT NULL AUTO_INCREMENT,
-    plisttitle varchar(30) NOT NULL,
-    plistcreatetime TIMESTAMP NOT NULL,
+    plisttitle varchar(50) NOT NULL,
+    timestamp TIMESTAMP NOT NULL,
     pliststatus BIT NOT NULL, /* 0 means private, 1 means public*/
     userid int,
     PRIMARY KEY(plistid),
-    FOREIGN KEY (userid) REFERENCES User(userid)
+    FOREIGN KEY (userid) REFERENCES Users(userid)
 );
 
 CREATE TABLE Track (
     trackid int NOT NULL AUTO_INCREMENT,
-    tracktitle varchar(30) NOT NULL,
-    genre varchar(30),
+    tracktitle varchar(50) NOT NULL,
+    genre varchar(50),
     duration TIME,
     trackdesc varchar (140),
     PRIMARY KEY (trackid)
@@ -52,7 +53,7 @@ CREATE TABLE Play(
     trackid int NOT NULL,
     timestamp TIMESTAMP NOT NULL,
     PRIMARY KEY (playid),
-    FOREIGN KEY (userid) REFERENCES User(userid),
+    FOREIGN KEY (userid) REFERENCES Users(userid),
     FOREIGN KEY (trackid) REFERENCES Track(trackid)
 );
 
@@ -61,8 +62,8 @@ CREATE TABLE Follow (
     followerid int NOT NULL,
     timestamp TIMESTAMP NOT NULL,
     PRIMARY KEY (followeeid, followerid),
-    FOREIGN KEY (followeeid) REFERENCES User(userid),
-    FOREIGN KEY (followerid) REFERENCES User(userid)
+    FOREIGN KEY (followeeid) REFERENCES Users(userid),
+    FOREIGN KEY (followerid) REFERENCES Users(userid)
 );
 
 CREATE TABLE LikeArtist (
@@ -70,7 +71,7 @@ CREATE TABLE LikeArtist (
     artistid int NOT NULL,
     timestamp TIMESTAMP NOT NULL,
     PRIMARY KEY (userid, artistid),
-    FOREIGN KEY (userid) REFERENCES User(userid),
+    FOREIGN KEY (userid) REFERENCES Users(userid),
     FOREIGN KEY (artistid) REFERENCES Artist(artistid)
 );
 
@@ -80,7 +81,7 @@ CREATE TABLE Rate (
     rate int NOT NULL,
     timestamp TIMESTAMP,
     PRIMARY KEY (userid, trackid),
-    FOREIGN KEY (userid) REFERENCES User(userid),
+    FOREIGN KEY (userid) REFERENCES Users(userid),
     FOREIGN KEY (trackid) REFERENCES Track(trackid)
 );
 
